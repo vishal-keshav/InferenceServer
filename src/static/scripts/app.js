@@ -46,7 +46,7 @@ var myDropzone = new Dropzone(
         success: function(file,response) {
             console.log('success');
             console.log(response);
-            document.getElementById("output-text").textContent = response;
+            document.getElementById("output-text").innerHTML = response.replace(/\n/g, '<br>');
         }
 
     }
@@ -75,13 +75,9 @@ var myDropzone = new Dropzone(
 //     // read uploaded file (triggers code above)
 //     reader.readAsDataURL(file);
 //
-//     var blob = $img.cropper('getCroppedCanvas',{fillColor:'#ffffff'}).toDataURL();
-//     // transform it to Blob object
-//     var newFile = dataURItoBlob(blob);
-//
 //     // assign original filename
 //     //newFile.name = cachedFilename;
-//     newFile.name = 'user_image.jpg'
+//     //newFile.name = 'user_image.jpg'
 //
 //     myDropzone.addFile(newFile);
 //     // upload file with dropzone
