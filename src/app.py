@@ -7,13 +7,14 @@ from flask import (Flask,
                   )
 import os
 import binascii
+from werkzeug.utils import secure_filename
 
 import torch
 from torchvision import transforms
 from PIL import Image
 
 
-UPLOAD_FOLDER = '/upload'
+UPLOAD_FOLDER = os.getcwd() + '/upload'
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 
 app = Flask(__name__, static_url_path='')
@@ -33,14 +34,13 @@ def home():
     return render_template('index.html')
 
 @app.route('/uploadajax', methods=["GET", "POST"])
-def upldfile():
+def uploadfile():
     if request.method == 'POST':
-        files = request.files['file']
-        print(files.filename)
-        print('bad dog')
+        files = request.files['file']  # see paramName in app.js
+        print(files.filename, flush=True)
         if files and allowed_file(files.filename):
-            filename = secure_filename(files.filename)
-            print(filename)
+            filename = secure_filename(files.filename)  # see this for what this is doing https://flask.palletsprojects.com/en/1.1.x/patterns/fileuploads/
+            print(filename, flush=True)
             updir = os.path.join(basedir, 'upload/')
             files.save(os.path.join(updir, filename))
             file_size = os.path.getsize(os.path.join(updir, filename))
@@ -48,6 +48,7 @@ def upldfile():
             app.logger.info('ext name error')
             return jsonify(error='ext name error')
 
+        return 'Cat'
         # below is old code from my old project but we might want to use this
         # my project ran a CV algorithm on the inputed file and then returned another
         # image as a result which is why it sends an encoded string back to the user

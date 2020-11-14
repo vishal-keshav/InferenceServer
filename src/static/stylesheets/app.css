@@ -85,16 +85,23 @@ h2 {
     text-align: center;
 }
 
-.reset, .crop-upload {
-    display: inline;
-}
-
 .dropzone .dz-preview .dz-image-preview {
     margin: 25%;
 }
 
 .dropzone .dz-message {
     position:relative;
+}
+
+.out-text-area {
+    width=200px;
+    height=200px;
+}
+
+#form_div {
+    display: block;
+    margin: 7% auto;
+    text-align: center;
 }
 
 #bottom_text {
@@ -121,20 +128,22 @@ h2 {
 }
 
 #input {
-    display: inline;
+    display: inline-block;
     margin: 2em 3%;
     vertical-align: top;
 }
 
 #output {
-    display: inline;
+    display: inline-block;
     margin: 2em 3%;
     vertical-align: top;
 }
 
-#output-img-container {
-    display: inline;
-    position:relative;
+.output-img-container {
+    margin: auto;
+    width: 206px;
+    height: 206px;
     border: dashed #666699;
-    vertical-align: top;
+    background: white;
+    padding: 50px;
 }

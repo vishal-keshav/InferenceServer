@@ -10,13 +10,28 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/bootstrap.css') }}" >
         <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/bootstrap-theme.css') }}" >
         <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/app.css') }}" >
-
+        <link rel="shortcut icon" href="">  <!-- removes favicon error https://stackoverflow.com/questions/31075893/im-getting-favicon-ico-error -->
 
     </head>
     <body>
         <h1>CS532 - Inference Server</h1>
 
         <hr>
+
+        <div id="form_div">
+            <form>
+                <label class="radio-inline">
+                  <input type="radio" name="optradio" checked><img src="{{ url_for('static', filename='images/giraffe.png') }}" style="max-width:200px"/>
+                </label>
+                <label class="radio-inline">
+                  <input type="radio" name="optradio">Option 2
+                </label>
+                <label class="radio-inline">
+                  <input type="radio" name="optradio">Option 3
+                </label>
+            </form>
+        </div>
+
 
         <div id="boxes">
             <div id="input">
@@ -33,7 +48,7 @@
                             <br />
                             Accepts 1 Image
                             <br />
-                            Max 300 kb.
+                            Max 1 MB.
                         </div>
                     </form>
                 </div>
@@ -42,7 +57,9 @@
             <!-- Results -->
 
             <div id="output">
-                <img id="output-img-container" src="{{url_for('static', filename='images/dummy.jpg')}}" />
+                <div class="output-img-container">
+                    <span id="output-text">Result</span>
+                </div>
             </div>
         </div>
 
