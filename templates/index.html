@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>CS532 - Inference Server</title>
+
+        <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/dropzone.css') }}">
+        <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/bootstrap.css') }}" >
+        <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/bootstrap-theme.css') }}" >
+        <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/app.css') }}" >
+        <link rel="shortcut icon" href="">  <!-- removes favicon error https://stackoverflow.com/questions/31075893/im-getting-favicon-ico-error -->
+
+    </head>
+    <body>
+        <h1>CS532 - Inference Server</h1>
+
+        <hr>
+
+        <div id="form_div">
+            <form>
+                <label class="radio-inline">
+                  <input type="radio" name="optradio" checked><img src="{{ url_for('static', filename='images/giraffe.png') }}" style="max-width:200px"/>
+                </label>
+                <label class="radio-inline">
+                  <input type="radio" name="optradio">Option 2
+                </label>
+                <label class="radio-inline">
+                  <input type="radio" name="optradio">Option 3
+                </label>
+            </form>
+        </div>
+
+
+        <div id="boxes">
+            <div id="input">
+                <div class="dropzone" id="droparea">
+                    <form action="" method="post" enctype="multipart/form-data" class="needsclick dz-clickable" id="my-awesome-dropzone">
+                        <div class="dz-message needsclick">
+                            <br />
+                            Drag and Drop Picture
+                            <br />
+                            or
+                            <br />
+                            Click to Upload
+                            <br />
+                            <br />
+                            Accepts 1 Image
+                            <br />
+                            Max 1 MB.
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Results -->
+
+            <div id="output">
+                <div class="output-img-container">
+                    <span id="output-text">Result</span>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-2.2.2.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+        <script src="{{ url_for('static', filename='scripts/bootstrap.js') }}"></script>
+        <script src="{{ url_for('static', filename='scripts/dropzone.js') }}"></script>
+
+        <script src="{{ url_for('static', filename='scripts/app.js') }}"></script>
+    </body>
+</html>
