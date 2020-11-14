@@ -1,18 +1,10 @@
-FROM ubuntu:latest
-RUN apt-get update -y
-RUN apt-get install -y nginx git python-setuptools python-dev
-RUN easy_install pip
+FROM python:3.8
 
-RUN mkdir -p /app/src
+WORKDIR /app
+COPY . .
 
-WORKDIR /app/src
+RUN pip install --upgrade -r requirements.txt
 
-COPY src/requirements.txt .
+ENTRYPOINT ["python"]
 
-RUN pip install -r requirements.txt
-
-EXPOSE 80 8000
-
-COPY /src .
-
-CMD ["python3", "app.py"]
+CMD ["app.py"]

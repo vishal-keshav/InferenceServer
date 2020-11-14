@@ -1,0 +1,8 @@
+Flask
+numpy
+pandas
+torch
+torchvision
+Werkzeug
+Pillow
+json
