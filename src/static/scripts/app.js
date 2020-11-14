@@ -1,27 +1,5 @@
-// transform cropper dataURI output to a Blob which Dropzone accepts
-// function dataURItoBlob(dataURI) {
-//     var byteString = atob(dataURI.split(',')[1]);
-//     var ab = new ArrayBuffer(byteString.length);
-//     var ia = new Uint8Array(ab);
-//     for (var i = 0; i < byteString.length; i++) {
-//         ia[i] = byteString.charCodeAt(i);
-//     }
-//     return new Blob([ab], { type: 'image/jpeg' });
-// }
-
-// modal window template
-var modalTemplate = '<div class="modal" tabindex="-1">'+
-                        <!-- bootstrap modal here -->
-                        '<h2>Crop as close to the border as possible</h2>'+
-                        '<div class="image-container"></div>'+
-                        '<div class="buttons">'+
-                            '<button type="button" class="reset">Reset</button>'+
-                            '<button type="button" class="crop-upload">Submit</button>'+
-                        '</div>'+
-                    '</div>';
-
 // initialize dropzone
-Dropzone.autoDiscover = false;
+Dropzone.autoDiscover = true;
 var myDropzone = new Dropzone(
     "#droparea",
     {
@@ -52,35 +30,23 @@ var myDropzone = new Dropzone(
     }
 );
 
-// listen to thumbnail event
-// myDropzone.on('thumbnail', function (file) {
-//     if (file.width < 50) {
-//         // validate width to prevent too small files to be uploaded
-//         // .. add some error message here
-//         return;
-//     }
-//     // cache filename to re-assign it to cropped file
-//     //var cachedFilename = file.name;
-//     //I dont need this since I'm changing filename
-//
-//     // remove not cropped file from dropzone (we will replace it later)
-//     myDropzone.removeFile(file);
-//
-//     // initialize FileReader which reads uploaded file
-//     var reader = new FileReader();
-//     reader.onloadend = function () {
-//         // add uploaded and read image to modal
-//         $img.attr('src', reader.result);
-//     };
-//     // read uploaded file (triggers code above)
-//     reader.readAsDataURL(file);
-//
-//     // assign original filename
-//     //newFile.name = cachedFilename;
-//     //newFile.name = 'user_image.jpg'
-//
-//     myDropzone.addFile(newFile);
-//     // upload file with dropzone
-//     myDropzone.processQueue();
-//
-// });
+function default_option()
+{
+    $.ajax({
+        type: "POST",
+        url: "/radio_button",
+        data: JSON.stringify({"radio_sel" : $(".radio_sel:checked").val()}),  // converts to json that can be read by python
+        success: function(response) {
+            document.getElementById("output-text").innerHTML = response.replace(/\n/g, '<br>');
+            console.log('radio button success');
+        },
+        error: function() {
+            console.log('error in get request for radio button');
+        }
+    });
+}
+
+// This just clicks the first button to populate the initial results
+$(document).ready(function() {
+   $(".radio_sel:checked").trigger('click');
+});

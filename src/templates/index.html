@@ -19,15 +19,15 @@
         <hr>
 
         <div id="form_div">
-            <form>
+            <form id="defaults">
                 <label class="radio-inline">
-                  <input type="radio" name="optradio" checked><img src="{{ url_for('static', filename='images/giraffe.png') }}" style="max-width:200px"/>
+                  <input class="radio_sel" type="radio" name="optradio" onclick='default_option();' value="1" checked><img src="{{ url_for('static', filename='images/n02121808_1421_domestic_cat.jpg') }}" style="max-height:100px"/>
                 </label>
                 <label class="radio-inline">
-                  <input type="radio" name="optradio">Option 2
+                  <input class="radio_sel" type="radio" name="optradio" onclick='default_option();' value="2" ><img src="{{ url_for('static', filename='images/grey_whale.jpeg') }}" style="max-height:100px"/>
                 </label>
                 <label class="radio-inline">
-                  <input type="radio" name="optradio">Option 3
+                  <input class="radio_sel" type="radio" name="optradio" onclick='default_option();' value="3" ><img src="{{ url_for('static', filename='images/n02084071_1365_dog.jpg') }}" style="max-height:100px"/>
                 </label>
             </form>
         </div>
