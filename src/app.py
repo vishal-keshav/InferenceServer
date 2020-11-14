@@ -19,7 +19,7 @@ UPLOAD_FOLDER = os.getcwd() + '/upload'
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 
 # you can find images here https://github.com/ajschumacher/imagen/tree/master/imagen
-imagenet_data = pd.read_csv(os.path.join(os.getcwd(), 'static', 'imagenet_labels.txt'), sep=' ', names=['tag', 'id', 'name'])
+imagenet_data = pd.read_csv(os.path.join(os.getcwd(), 'static', 'imagenet_labels.txt'), sep=' ', names=['wnid', 'id', 'name']).sort_values('wnid')
 IMAGENET_LABELS = np.array(imagenet_data['name'])
 
 app = Flask(__name__, static_url_path='')
