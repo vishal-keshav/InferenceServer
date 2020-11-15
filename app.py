@@ -8,6 +8,7 @@ from flask import (Flask,
 import os
 import binascii
 from werkzeug.utils import secure_filename
+import json
 
 import torch
 from torchvision import transforms
@@ -22,9 +23,13 @@ ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 imagenet_data = pd.read_csv(os.path.join(os.getcwd(), 'static', 'imagenet_labels.txt'), sep=' ', names=['wnid', 'id', 'name']).sort_values('wnid')
 IMAGENET_LABELS = np.array(imagenet_data['name'])
 
-#app = Flask(__name__, static_url_path='')
-#app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+# load densenet121, initialized here so that it isn't constantly reset each function.
+MODEL = torch.hub.load('pytorch/vision:v0.6.0', 'densenet121', pretrained=True)
+MODEL.eval()
+
+# app = Flask(__name__, static_url_path='')
 app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -32,7 +37,7 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[-1].lower() in ALLOWED_EXTENSIONS
 
-@app.route('/mainpage')
+@app.route('/')
 def home():
     """
     Homepage: serve our visualization page, index.html
@@ -60,23 +65,22 @@ def uploadfile():
 
         return prediction
 
-        # below is old code from my old project but we might want to use this
-        # my project ran a CV algorithm on the inputed file and then returned another
-        # image as a result which is why it sends an encoded string back to the user
-        # we probably just want to send back the classification string
+@app.route('/radio_button', methods=["GET", "POST"])
+def radio_selection():
+    if request.method == 'POST':
+        selection = json.loads(request.get_data(as_text=True))['radio_sel']  # converts json byte string to dict
+        print(selection)
+        if selection=='1':  #(cat)
+            image_path = os.path.join(os.getcwd(), 'static', 'images', 'n02121808_1421_domestic_cat.jpg')
+        elif selection=='2':  # (whale)
+            image_path = os.path.join(os.getcwd(), 'static', 'images', 'grey_whale.jpeg')
+        elif selection=='3':  # (dog)
+            image_path = os.path.join(os.getcwd(), 'static', 'images', 'n02084071_1365_dog.jpg')
 
-        # result = execute_solver(files)
-        #
-        # if result == 'good':
-        #     with open("static/images/solution.jpg", "rb") as image_file:
-        #         encoded_string = binascii.b2a_base64(image_file.read())
-        #     return encoded_string
-        #
-        # elif result == 'error':
-        #     print(result)
-        #     with open("static/images/error.jpg", "rb") as image_file:
-        #         encoded_string = binascii.b2a_base64(image_file.read())
-        #     return encoded_string
+        prediction = make_prediction(image_path)
+        print(prediction)
+
+        return prediction
 
 def preprocess_image(input_image):
     preprocess = transforms.Compose([
@@ -89,10 +93,6 @@ def preprocess_image(input_image):
     return input_tensor
 
 def make_prediction(image_path):
-    # load densenet121
-    model = torch.hub.load('pytorch/vision:v0.6.0', 'densenet121', pretrained=True)
-    model.eval()
-
     # before classifying image needs to be preprocessed
     # https://pytorch.org/hub/pytorch_vision_densenet/
     input_image = Image.open(image_path)
@@ -103,14 +103,9 @@ def make_prediction(image_path):
     # create a mini-batch
     input_batch = input_tensor.unsqueeze(0)
 
-    # move the input batch and model to GPU for speed if available
-    if torch.cuda.is_available():
-        input_batch = input_batch.to('cuda')
-        model.to('cuda')
-
     # run model
     with torch.no_grad():
-        output = model(input_batch)
+        output = MODEL(input_batch)
 
     predictions = (torch.nn.functional.softmax(output[0], dim=0)).detach().numpy()  # this normalizes the scores
 

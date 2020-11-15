@@ -100,7 +100,7 @@ h2 {
 
 #form_div {
     display: block;
-    margin: 7% auto;
+    margin: 7% auto 0%;
     text-align: center;
 }
 
@@ -123,7 +123,7 @@ h2 {
 
 #boxes {
     display: block;
-    margin: 7% auto;
+    margin: 0% auto;
     text-align: center;
 }
 
