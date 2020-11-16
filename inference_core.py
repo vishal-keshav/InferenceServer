@@ -1,7 +1,6 @@
 import os
 import torch
 from torchvision import transforms
-from PIL import Image
 import pandas as pd
 import numpy as np
 
@@ -56,46 +55,3 @@ class inference_engine:
             score = predictions[idx]
             result.append((label, score))
         return result
-
-        
-
-
-
-
-def make_prediction(image_path):
-    # load densenet121
-    model = torch.hub.load('pytorch/vision:v0.6.0', 'densenet121', pretrained=True)
-    model.eval()
-
-    # before classifying image needs to be preprocessed
-    # https://pytorch.org/hub/pytorch_vision_densenet/
-    input_image = Image.open(image_path)
-
-    # apply preprocessing
-    input_tensor = preprocess_image(input_image)
-
-    # create a mini-batch
-    input_batch = input_tensor.unsqueeze(0)
-
-    # move the input batch and model to GPU for speed if available
-    if torch.cuda.is_available():
-        input_batch = input_batch.to('cuda')
-        model.to('cuda')
-
-    # run model
-    with torch.no_grad():
-        output = model(input_batch)
-
-    predictions = (torch.nn.functional.softmax(output[0], dim=0)).detach().numpy()  # this normalizes the scores
-
-    top5 = predictions.argsort()[-5:][::-1]
-    # top1 = IMAGENET_LABELS[np.argmax(predictions)]
-    print(top5)  # get top 5 locations
-
-    prediction_str = ''
-    for idx in top5:
-        label = IMAGENET_LABELS[idx]
-        score = predictions[idx]
-        prediction_str+= f'{label}, ({score:.04f})\n'
-    print(prediction_str)
-    return prediction_str

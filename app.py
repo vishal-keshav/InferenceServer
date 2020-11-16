@@ -15,6 +15,9 @@ from PIL import Image
 import pandas as pd
 import numpy as np
 
+from inference_core import inference_engine
+instance = inference_engine()
+
 UPLOAD_FOLDER = os.getcwd() + '/upload'
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 
