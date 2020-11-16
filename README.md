@@ -14,7 +14,7 @@ On linux machine, use the following commands (uses apt)
 
 
 ## How to start the app (one step app setup)
-From the repository main directory, 
+From the repository main directory,
 
 Step1: `sudo docker-compose up`
 
@@ -34,6 +34,10 @@ The generic command is shown below:
 Example: If the image file "cat.jpg" is located at the root of the file system, then the command will be:
 
 `curl -X POST -F "file=@cat.jpg" http://0.0.0.0:5000/uploadajax`
+
+Or if the image is located in the `upload/` directory then you can use:
+
+`curl -X POST -F "file=@upload/cat.jpg" http://0.0.0.0:5000/uploadajax`
 
 ### User interface through web browser
 The app can be accessed via http://0.0.0.0:5000/ and images can be uploaded by clicking on or dragging images to the drop zone. To test a new image simply click on the whitespace around the thumbnail (see image below). There are also some example images you can use to test the classifier.
