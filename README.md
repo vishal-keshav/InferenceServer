@@ -14,11 +14,11 @@ On linux machine, use the following commands (uses apt)
 
 
 ## How to start the app (one step app setup)
-Step1: Download the repo, and cd into the repo
+From the repository main directory, 
 
-Step2: `sudo docker-compose up`
+Step1: `sudo docker-compose up`
 
-This will start the server at localhost:5000
+This will start the server at 0.0.0.0:5000
 
 For developer's, if you change anything in the source, please run `sudo docker-compose build` before `sudo docker-compose up`. This re-builds the docker with changes in the source file.
 
@@ -26,10 +26,16 @@ For developer's, if you change anything in the source, please run `sudo docker-c
 Once the server is on, you can either use UI or command line interface.
 
 ### Command line interface
-[TODO]: Create route to upload, predict and return response
-curl -F "file=@persian.jpg" http://0.0.0.0:5000/upload
+Use curl command to query inference on the local images.
+The generic command is shown below:
 
-### UI interface
+`curl -X POST -F "file=@</path/image.jpeg>" http://0.0.0.0:5000/uploadajax` where </path/image.jpeg> is the image file location.
+
+Example: If the image file "cat.jpg" is located at the root of the file system, then the command will be:
+
+`curl -X POST -F "file=@cat.jpg" http://0.0.0.0:5000/uploadajax`
+
+### User interface through web browser
 The app can be accessed via http://0.0.0.0:5000/ and images can be uploaded by clicking on or dragging images to the drop zone. To test a new image simply click on the whitespace around the thumbnail (see image below). There are also some example images you can use to test the classifier.
 
 <p align="center">
