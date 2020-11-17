@@ -64,4 +64,5 @@ The app can be accessed via http://0.0.0.0:5000/ and images can be uploaded by c
 </p>
 
 
-Project description: https://docs.google.com/document/d/1arkxU7LA2C-KjFfyAwzbUvSG6qoIBv9FJJze2V6TzEk/edit
+# Documentation
+The documentation can be found in the `docs` folder.
