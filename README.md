@@ -1,6 +1,23 @@
 # InferenceServer
 An ML inference server to serve Image classification over HTTP
 
+# Contributors
+Vishal Keshav
+
+Kenneth Myers
+
+Jessie Huo
+
+# Automated script
+Following script starts the docker
+
+`sh start_docker_script.sh`
+
+Following script does the inference on a sample image if the app is running in the docker
+
+`sh infer_image_script.sh`
+
+
 ## Requirements
 `docker`, `docker-compose`, `curl`
 
