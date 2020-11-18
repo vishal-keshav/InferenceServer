@@ -18,6 +18,9 @@ Following script does the inference on a sample image if the app is running in t
 `sh infer_image_script.sh`
 
 
+# Docker image location
+A built docker image can be downloaded from this public link: https://umass.box.com/s/8p67ps7zpjwi6t3lyxbzdx67qgg1lp4p
+
 ## Requirements
 `docker`, `docker-compose`, `curl`
 
