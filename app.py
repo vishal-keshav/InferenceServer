@@ -7,8 +7,9 @@ import json
 
 from utility import decode_image, stringify
 from inference_core import inference_engine
-inference_instance = inference_engine()
 
+
+inference_instance = inference_engine()
 
 UPLOAD_FOLDER = os.getcwd() + '/upload'
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
@@ -21,6 +22,9 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 def allowed_file(filename):
+    """
+    Checks to make sure sent image has a valid filetype
+    """
     return '.' in filename and \
            filename.rsplit('.', 1)[-1].lower() in ALLOWED_EXTENSIONS
 
@@ -38,6 +42,7 @@ def uploadfile():
     if request.method == 'POST':
         files = request.files['file']
         print(files.filename, flush=True)
+        # check validity of file
         if files and allowed_file(files.filename):
             filename = secure_filename(files.filename)
             print(filename, flush=True)
@@ -48,8 +53,7 @@ def uploadfile():
         else:
             app.logger.info('ext name error')
             return jsonify(error='ext name error')
-
-        image = decode_image(image_path)
+        image = decode_image(image_path) # read in the image
         predictions = inference_instance.get_class_probabilities(image)
         return stringify(predictions)
 
@@ -66,23 +70,9 @@ def radio_selection():
         elif selection=='3':  # (dog)
             image_path = os.path.join(os.getcwd(), 'static', 'images', 'n02084071_1365_dog.jpg')
 
-        image = decode_image(image_path)
+        image = decode_image(image_path)  # read the image
         predictions = inference_instance.get_class_probabilities(image)
         return stringify(predictions)
-
-
-# User sends request to http://127.0.0.1:5000/class?image=grey_whale.jpeg
-# TODO: Remove this route, we will be using uploadajax route
-@app.route('/class', methods=['GET'])
-def image():
-    if 'image' in request.args:
-        image_path = request.args['image']
-    else:
-        return "Error: No image provided. Please specify an input image."
-    
-    image = decode_image(image_path)
-    predictions = inference_instance.get_class_probabilities(image)
-    return stringify(predictions)
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0')
